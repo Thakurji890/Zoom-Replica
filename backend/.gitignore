@@ -1,2 +1,32 @@
-/node_modules
+# Operating System Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE and Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment Variables and Secrets
 .env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Logs and Temporary Files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+tmp/
+temp/
+
+# Dependencies and Build Outputs
+node_modules/
+dist/
+build/
+out/
+coverage/

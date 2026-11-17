@@ -9,19 +9,33 @@ import cors from "cors";
 
 const PORT = process.env.PORT || 3300;
 
+import { connectToSocket } from "./controllers/socketManager.js";
+
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = connectToSocket(server);
 
-app.set("port", process.env.PORT);
+app.set("port", process.env.PORT || 3300);
 app.set("mongo_url", process.env.DATABASE);
+
+app.use(cors());
+app.use(express.json({ limit: "40kb" }));
+app.use(express.urlencoded({ limit: " 40kb", extended: true }));
+
 app.get("/", (req, res) => {
   return res.json({ hello: "world" });
 });
 
 const start = async () => {
-  app.listen("port", () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
+  try {
+    const connectionDb = await mongoose.connect(app.get("mongo_url"));
+    console.log(`Mongo Connected DB host : ${connectionDb.connection.host}`);
+
+    server.listen(app.get("port"), () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.log(`Error due to ${error}`);
+  }
 };
 start();

@@ -28,3 +28,11 @@ J
 ## Architecture
 
 P2P (Peer to Peer) SFU (Selective Forwarding Unit), MCU (Multi point control Unit)
+
+## for backend
+
+--- socket.io used
+
+## for frontend
+
+--- socket.io client used

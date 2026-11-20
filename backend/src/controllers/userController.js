@@ -26,3 +26,33 @@ const register = async (req, res) => {
     res.json({ message: `Somthing wen wrong ${error}` });
   }
 };
+
+const login = async (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res
+      .status(httpStatus.BAD_REQUEST)
+      .json({ message: "Username and password is wrong" });
+  }
+  try {
+    const user = await User.find({ username });
+
+    if (!user) {
+      return res
+        .status(httpStatus.NOT_FOUND)
+        .json({ message: "User Not Found" });
+    }
+
+    if (bcrypt.compare(password, user.password)) {
+      let token = crypto.randomBytes(20).toString("hex");
+      user.token = token;
+      await user.save();
+
+      return res.status(httpStatus.OK).json({ token: token });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: `Somthing went wrong ${error}` });
+  }
+};
+
+export default { register, login };

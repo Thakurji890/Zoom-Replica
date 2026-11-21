@@ -1,6 +1,7 @@
-import { User } from "../models/usersmodel";
+import { User } from "../models/usersmodel.js";
 import httpStatus from "http-status";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 
 const register = async (req, res) => {
   const { name, username, password } = req.body;
@@ -35,7 +36,7 @@ const login = async (req, res) => {
       .json({ message: "Username and password is wrong" });
   }
   try {
-    const user = await User.find({ username });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res
@@ -55,4 +56,4 @@ const login = async (req, res) => {
   }
 };
 
-export default { register, login };
+export { register, login };
